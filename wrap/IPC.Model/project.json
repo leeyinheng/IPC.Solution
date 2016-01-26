@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0-*",
+  "frameworks": {
+    "net45": {
+      "wrappedProject": "../../IPC.Model/IPC.Model.csproj",
+      "bin": {
+        "assembly": "../../IPC.Model/obj/{configuration}/IPC.Model.dll",
+        "pdb": "../../IPC.Model/obj/{configuration}/IPC.Model.pdb"
+      }
+    }
+  }
+}
