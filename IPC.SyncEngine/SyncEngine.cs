@@ -14,6 +14,8 @@ namespace IPC.SyncEngine
 
         private readonly SyncFilesManager _syncmanager;
 
+        private readonly CheckVersionManager _versionmanger; 
+
         private readonly int frequencyByMins;
 
         private bool runservice; 
@@ -28,9 +30,19 @@ namespace IPC.SyncEngine
 
             string ftpsite = ConfigurationManager.AppSettings["ftpsite"];
 
-            string localfolder = ConfigurationManager.AppSettings["localfolder"];
+            string localfolder = ConfigurationManager.AppSettings["contentfolder"];
 
-            _syncmanager = new SyncFilesManager(username , password , ftpsite, localfolder);
+            string remoteversionfolder = ConfigurationManager.AppSettings["remoteversionfolder"];
+
+            string localversionfolder = ConfigurationManager.AppSettings["localversionfolder"];
+
+            string remotecontentfolder = ConfigurationManager.AppSettings["remotecontentfolder"];
+
+            string syncfolders = ConfigurationManager.AppSettings["syncfolders"];
+
+            _syncmanager = new SyncFilesManager(username , password , ftpsite, localfolder, remotecontentfolder, syncfolders);
+
+            _versionmanger = new CheckVersionManager(username, password, ftpsite, remoteversionfolder, localversionfolder); 
 
             runservice = true;  
         }
@@ -51,11 +63,22 @@ namespace IPC.SyncEngine
                 do
                 {
                     // do work 
-                    
-                    _syncmanager.Execute();
+
+                    if (_versionmanger.IsVersionDifferent() == true)
+                    {
+                        _syncmanager.Execute();
+                         
+                        //send log 
+                    }
+                    else
+                    {
+
+                        //send log 
+                    }
+                                        
 
                     Thread.Sleep((int)TimeSpan.FromMinutes(frequencyByMins).TotalMilliseconds); 
-                                      
+                                     
 
                    // SpinWait.SpinUntil((() => CancelEvent.IsSet), TimeSpan.FromMinutes(frequencyByMins));
 

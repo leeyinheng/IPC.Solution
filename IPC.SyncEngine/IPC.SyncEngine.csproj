@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheckVersionManager.cs" />
     <Compile Include="SyncEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyncFilesManager.cs" />
