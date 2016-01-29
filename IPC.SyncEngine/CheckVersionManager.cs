@@ -30,45 +30,57 @@ namespace IPC.SyncEngine
 
         public bool IsVersionDifferent()
         {
-            DirectoryInfo di = new DirectoryInfo(localversionfolder);
-
-            if (di.Exists == false)
+            // Validate FTP Connection 
+            try
             {
-                Directory.CreateDirectory(localversionfolder);
-            }
+                var ftpClient = new IPC.Solution.FTPClient(ftpsite, username, password);
 
-            var localversion =  Path.GetFileName(System.IO.Directory.GetFiles(localversionfolder).FirstOrDefault());
+                var remoteversion = ftpClient.directoryListSimple(remoteversionfolder).FirstOrDefault();
 
-            var ftpClient = new IPC.Solution.FTPClient(ftpsite, username, password);
+                DirectoryInfo di = new DirectoryInfo(localversionfolder);
 
-            var remoteversion = ftpClient.directoryListSimple(remoteversionfolder).FirstOrDefault();
-
-            Console.WriteLine("Remote Version - " + remoteversion); 
-
-            if (localversion == null)
-            {
-                // copy version to local 
-       
-                System.IO.File.Create(localversionfolder + remoteversion);
-
-                return true; 
-            }
-            else
-            {
-                if (localversion == remoteversion)
+                if (di.Exists == false)
                 {
-                    return false; // do not Sync 
+                    Directory.CreateDirectory(localversionfolder);
+                }
+
+                var localversion = Path.GetFileName(System.IO.Directory.GetFiles(localversionfolder).FirstOrDefault());
+
+                Console.WriteLine("Remote Version - " + remoteversion);
+
+                if (localversion == null)
+                {
+                    // copy version to local 
+
+                    System.IO.File.Create(localversionfolder + remoteversion);
+
+                    return true;
                 }
                 else
                 {
-                    // remove old version file 
-                    System.IO.File.Delete(localversionfolder + localversion);
+                    if (localversion == remoteversion || remoteversion == "")
+                    {
+                        return false; // do not Sync 
+                    }
+                    else
+                    {
+                        // remove old version file 
+                        System.IO.File.Delete(localversionfolder + localversion);
 
-                    // copy new version file to local folder 
-                    System.IO.File.Create(localversionfolder + remoteversion);
-                    return true;
+                        // copy new version file to local folder 
+                        System.IO.File.Create(localversionfolder + remoteversion);
+                        return true;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return false;                
+            }
+
+          
 
 
         } 
