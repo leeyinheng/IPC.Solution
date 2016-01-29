@@ -41,8 +41,10 @@ namespace IPC.SyncEngine
 
             var ftpClient = new IPC.Solution.FTPClient(ftpsite, username, password);
 
-            var remoteversion = ftpClient.directoryListSimple(remoteversionfolder).FirstOrDefault(); 
-            
+            var remoteversion = ftpClient.directoryListSimple(remoteversionfolder).FirstOrDefault();
+
+            Console.WriteLine("Remote Version - " + remoteversion); 
+
             if (localversion == null)
             {
                 // copy version to local 

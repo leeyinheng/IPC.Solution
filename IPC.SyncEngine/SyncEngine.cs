@@ -64,6 +64,8 @@ namespace IPC.SyncEngine
                 {
                     // do work 
 
+                    Console.WriteLine(System.Environment.MachineName +  " - Sync Operation Starts at " + DateTime.Now.ToShortTimeString()); 
+
                     if (_versionmanger.IsVersionDifferent() == true)
                     {
                         _syncmanager.Execute();
