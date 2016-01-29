@@ -46,55 +46,48 @@ namespace IPC.SyncEngine
 
             runservice = true;  
         }
-                
 
         public void Execute()
         {
             ThreadPool.QueueUserWorkItem(o => ScheduleSyncTask());
-            
         }
 
         private void ScheduleSyncTask()
         {
-
-           try
-            {
-                
+                        
                 do
                 {
                     // do work 
 
-                    Console.WriteLine(System.Environment.MachineName +  " - Sync Operation Starts at " + DateTime.Now.ToShortTimeString()); 
-
-                    if (_versionmanger.IsVersionDifferent() == true)
+                    try
                     {
-                        _syncmanager.Execute();
-                         
-                        //send log 
+                        Console.WriteLine(System.Environment.MachineName + " - Sync Operation Starts at " + DateTime.Now.ToShortTimeString());
+
+                        if (_versionmanger.IsVersionDifferent() == true)
+                        {
+                            _syncmanager.Execute();
+
+                            //send log 
+                        }
+                        else
+                        {
+
+                            //send log 
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
 
-                        //send log 
+                        Console.WriteLine("Error-" + ex.Message);
                     }
-                                        
-
+                      
                     Thread.Sleep((int)TimeSpan.FromMinutes(frequencyByMins).TotalMilliseconds); 
-                                     
-
+                                    
                    // SpinWait.SpinUntil((() => CancelEvent.IsSet), TimeSpan.FromMinutes(frequencyByMins));
 
                 } while(runservice == true) ; //(!CancelEvent.IsSet)
             }
-            catch (Exception ex)
-            {
-                // send log to web service 
-
-                Console.WriteLine(ex.Message); 
-            }
-        }
-
-
+         
         public void Dispose()
         {
             // send close notification 
