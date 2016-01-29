@@ -96,7 +96,9 @@ namespace IPC.SyncEngine
         public void Dispose()
         {
             // send close notification 
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            runservice = false;
+  
         }
     }
 }
