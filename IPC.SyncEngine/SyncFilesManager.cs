@@ -15,11 +15,12 @@ namespace IPC.SyncEngine
         private readonly string ftpsite;
         private readonly string localfolder;
         private readonly string remotefolder;
-        private readonly string[] syncfolders; 
+        private readonly string[] syncfolders;
+        private readonly string versionfolder; 
         private IPC.Solution.FTPClient ftpClient;
         private bool mediaFilechange = false; 
         
-        public SyncFilesManager(string _username, string _password, string _ftpsite, string _localfolder, string _remotefolder, string _syncfolders)
+        public SyncFilesManager(string _username, string _password, string _ftpsite, string _localfolder, string _remotefolder, string _syncfolders, string _versionfolder)
         {
              username = _username;
 
@@ -31,7 +32,9 @@ namespace IPC.SyncEngine
 
              remotefolder = _remotefolder;
 
-             syncfolders = _syncfolders.Split(';'); 
+             syncfolders = _syncfolders.Split(';');
+
+             versionfolder = _versionfolder; 
 
              ftpClient = new IPC.Solution.FTPClient(ftpsite, username, password); 
         }
@@ -65,7 +68,19 @@ namespace IPC.SyncEngine
                 }
         }
 
-     
+        private void UpdateVersionFolder()
+        {
+            var files = System.IO.Directory.GetFiles(versionfolder);
+
+            foreach (var file in files)
+            {
+                System.IO.File.Delete(file);
+            }
+
+            System.IO.File.Create(versionfolder + "Error-" + DateTime.Now.ToShortTimeString() + ".txt");
+        }
+
+
 
         private void DownloadFiles(string[] list , string downloadpath, string localpath)
         {

@@ -18,7 +18,7 @@ namespace IPC.SyncEngine
 
         private readonly int frequencyByMins;
 
-        private bool runservice; 
+        private bool runservice;
 
         public SyncEngine()
         {
@@ -40,7 +40,7 @@ namespace IPC.SyncEngine
 
             string syncfolders = ConfigurationManager.AppSettings["syncfolders"];
 
-            _syncmanager = new SyncFilesManager(username , password , ftpsite, localfolder, remotecontentfolder, syncfolders);
+            _syncmanager = new SyncFilesManager(username , password , ftpsite, localfolder, remotecontentfolder, syncfolders, localversionfolder);
 
             _versionmanger = new CheckVersionManager(username, password, ftpsite, remoteversionfolder, localversionfolder); 
 
@@ -79,6 +79,7 @@ namespace IPC.SyncEngine
                     {
 
                         Console.WriteLine("Error-" + ex.Message);
+
                     }
                       
                     Thread.Sleep((int)TimeSpan.FromMinutes(frequencyByMins).TotalMilliseconds); 
@@ -88,6 +89,8 @@ namespace IPC.SyncEngine
                 } while(runservice == true) ; //(!CancelEvent.IsSet)
             }
          
+     
+
         public void Dispose()
         {
             // send close notification 
