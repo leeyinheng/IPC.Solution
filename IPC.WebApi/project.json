@@ -2,12 +2,12 @@
     "webroot": "wwwroot",
     "version": "1.0.0-*",
 
-    "dependencies": {
-        "Microsoft.AspNet.Mvc": "6.0.0-beta5",
-        "Microsoft.AspNet.Server.IIS": "1.0.0-beta5",
-        "Microsoft.AspNet.Server.WebListener": "1.0.0-beta5",
-        "Microsoft.AspNet.StaticFiles": "1.0.0-beta5"
-    },
+  "dependencies": {
+    "Microsoft.AspNet.Mvc": "6.0.0-beta5",
+    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Server.WebListener": "1.0.0-beta5",
+    "Microsoft.AspNet.StaticFiles": "1.0.0-beta5"
+  },
 
     "commands": {
         "web": "Microsoft.AspNet.Hosting --config hosting.ini",
@@ -15,9 +15,11 @@
 
     "frameworks": {
         "dnx451": {
-            "dependencies": {
-                "IPC.Model": "1.0.0-*"
-            }
+          "dependencies": {
+            "IPC.Model": "1.0.0-*",
+            "NLog": "4.2.3",
+            "NLog.Config": "4.2.3"
+          }
         },
         "dnxcore50": { }
     },

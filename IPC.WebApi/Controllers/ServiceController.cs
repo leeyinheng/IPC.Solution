@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 
+
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace IPC.WebApi.Controllers
@@ -19,7 +20,7 @@ namespace IPC.WebApi.Controllers
         }
 
         // GET api/Service/5
-        [HttpGet("{id}")]
+        [HttpGet("{username}")]
         public string Get(string id , string username , string password)
         {
             var x = id; 
@@ -28,11 +29,15 @@ namespace IPC.WebApi.Controllers
         }
 
         // POST api/service
+#if DNX451
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]IPC.Models.IPCLog value)
         {
-            var x = value; 
+            string logMessage = $"{value.IPCName} | {value.Time} | {value.Action} | {value.Error}"; 
+             
         }
+#endif
+
 
         // PUT api/values/5
         [HttpPut("{id}")]
@@ -48,10 +53,12 @@ namespace IPC.WebApi.Controllers
 
         private bool CheckSchedule(string id)
         {
-            var x = new Models.ScheduleModel(); 
+            //var x = new Models.ScheduleModel(); 
 
             return true; 
 
         }
     }
+
+   
 }

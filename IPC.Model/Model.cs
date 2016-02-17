@@ -15,4 +15,15 @@ namespace IPC.Models
         public string Password { get; set; }
 
     }
+
+    public class IPCLog
+    {
+        public string IPCName { get; set; }
+
+        public string Action { get; set;}
+
+        public string Time { get; set;}
+
+        public string Error { get; set;}
+    }
 }
