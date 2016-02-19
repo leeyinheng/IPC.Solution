@@ -26,4 +26,7 @@ namespace IPC.Models
 
         public string Error { get; set;}
     }
+
+
+    
 }

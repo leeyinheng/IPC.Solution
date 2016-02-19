@@ -1,44 +1,21 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace IPC.Test
+namespace IPC.Console
 {
-    [TestClass]
-    public class UnitTestWebApi
+    class Program
     {
-        [TestMethod]
-        public void TestPost()
+        static void Main(string[] args)
         {
-            string username = "test";
-
-            string password = "test";
-
-            string site = @"http://localhost:53226/api";
-
-            string servicesite = string.Format("{0}/{1}/", site, "service");
-
-            string URI = servicesite;
-            string value = "test";
-
-            using (WebClient wc = new WebClient())
-            {
-                wc.Headers[HttpRequestHeader.ContentType] = "application/x-www-form-urlencoded";
-                string HtmlResult = wc.UploadString(URI, value);
-            }
-
+            RunAsync().Wait();
         }
 
-        [TestMethod]
-        public void TestIPCLogging()
-        {
-            RunAsync().Wait(); 
-        }
-
-        private async Task RunAsync()
+        static async Task RunAsync()
         {
             var newlog = new IPC.Models.IPCLog();
 
@@ -52,7 +29,7 @@ namespace IPC.Test
             string servicesite = string.Format("{0}/{1}/", site, "logging");
 
             string URI = servicesite;
-          
+
 
             using (var client = new HttpClient())
             {
@@ -61,10 +38,10 @@ namespace IPC.Test
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                 // New code:
-                var response = await client.PostAsJsonAsync("api/products", newlog);
+                var response = await client.PostAsJsonAsync(servicesite, newlog);
                 if (response.IsSuccessStatusCode)
                 {
-                    
+
                 }
             }
         }

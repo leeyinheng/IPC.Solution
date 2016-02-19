@@ -15,6 +15,7 @@
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common\Common\Common.Azure\Common.Azure.csproj" />
     <ProjectReference Include="..\IPC.Model\IPC.Model.csproj" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != ''" />
